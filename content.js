@@ -91,7 +91,7 @@ $(function(){
 
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      if (request.start == 'start'){
+      if (request.start === 'start'){
         startTime = Date.parse(request.date);
         sumPx = request.sum;
         init();
