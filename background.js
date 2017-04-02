@@ -5,10 +5,10 @@ chrome.storage.local.get('smdata', function(data){
   smdata.startDate = new Date();
   smdata.startDate = smdata.startDate.toString();
 
-  if (data.smdata == undefined){
+  if (data.smdata === undefined){
     chrome.storage.local.set({smdata: smdata}, function(){});
   } else {
-    if(data.smdata.sumPx != undefined){
+    if(data.smdata.sumPx !== undefined){
     // データが保存されていたら、そのデータを代入
     smdata.sumPx = data.smdata.sumPx;
     smdata.startDate = data.smdata.startDate;
@@ -17,7 +17,7 @@ chrome.storage.local.get('smdata', function(data){
   // スクロールイベントが走ったら、データを更新
   chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (request.px != 'undefined'){
+    if (request.px !== 'undefined'){
       smdata.sumPx += request.px;
         chrome.storage.local.set({smdata: smdata}, function(){});
       sendResponse({sum: smdata.sumPx, date: smdata.startDate});
@@ -27,7 +27,7 @@ chrome.storage.local.get('smdata', function(data){
 
   // タブを更新 or 開いたら実行される
   chrome.tabs.onUpdated.addListener(function(tabid, info, tab){
-    if(info.status == 'complete'){
+    if(info.status === 'complete'){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabid, {start: 'start', sum: smdata.sumPx, date: smdata.startDate}, function(response) {});
     });
